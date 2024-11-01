@@ -1,6 +1,6 @@
 ---
 title: "Lab 06 - Functions and iterations"
-author: "INSERT NAME HERE"
+author: "Cathy"
 date: "`r Sys.Date()`"
 output: html_document
 ---
@@ -28,10 +28,18 @@ diamonds <- diamonds %>% rename(
 
 ```{r}
 # Do some preliminary investigations & cleaning
+diamonds %>%
+  ggplot(mapping = aes(x = carat, y = price)) + 
+    geom_point() + 
+    geom_smooth(method = lm) +
+    labs(
+      x = "Size of Diamond (in carats)",
+      y = "Price of Diamond"
+    )
 
-
-
-
+model_price = lm(price ~ carat + depth_pct + table_pct + length_mm + width_mm, data = diamonds)
+summary(model_price)
+#price = 20703 + 10687*carat - 200.72*depth_pct - 102.49*table_pct - 1293.5*length_mm + 69.575*width_mm
 ```
 
 
@@ -43,14 +51,22 @@ diamonds <- diamonds %>%
   mutate(table_mm = table_pct * width_mm / 100)
 
 # Overall table_mm arithmetic mean?
-
-
-
-
-
+diamonds %>%
+  summarise(
+  mean(table_mm)
+)
+#mean = 3.30 (3 s.f.)
 
 # table_mm arithmetic mean within each clarity category
+diamonds %>%
+  count(clarity)
 
+arithmean <- function(x) {
+  filter(clarity == "x")
+  return(mean(table_mm))
+  }
+diamonds %>%
+  arithmean(I1)
 
 
 
